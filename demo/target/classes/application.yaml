@@ -1,0 +1,49 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: myproject
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://192.168.135.136:3306/application_system?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123
+mybatis-plus:
+  configuration:
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
+  global-config:
+    db-config:
+      update-strategy: not_null
+      id-type: auto
+knife4j:
+  enable: true
+  openapi:
+    title: 申报与评审系统接口文档
+    description: "申报与评审系统接口文档"
+    email: 2735195607@qq.com
+    concat: zyp
+    url: https://www.itcast.cn
+    version: v1.0.0
+    group:
+      default:
+        group-name: default
+        api-rule: package
+        api-rule-resources:
+          - com.zyp.demo.controller
+hm:
+  jwt:
+    location: classpath:hmall.jks
+    alias: hmall
+    password: hmall123
+    tokenTTL: 30m
+  auth:
+    excludePaths:
+      - /users/login
+      - /users/login2
+      - /users/login3
+      - /users/register
+      - /doc.html/**
+# keytool -genkeypair -alias hmall -keyalg RSA -keypass hmall123 -keystore hmall.jks -storepass hmall123
+
