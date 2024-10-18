@@ -1,0 +1,172 @@
+<template>
+  <div id="app">
+    <el-container style="overflow: hidden">
+      <el-header
+        style="
+          background-color: #4caf50;
+          color: white;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          height: 60px;
+          padding: 0 20px;
+        "
+      >
+        <span style="font-size: 24px">申报与评审系统</span>
+        <div style="display: flex; align-items: center;">
+          <el-button
+            icon="el-icon-bell"
+            @click="showNotifications"
+            style="background-color: transparent; color: white; border: none; margin-right: 20px; font-size: 20px; position: relative;"
+          >
+            <span v-if="showNotificationDot" class="notification-dot"></span>
+          </el-button>
+          <router-link to="/login">
+            <el-avatar
+              size="40"
+              src="https://via.placeholder.com/100"
+              alt="个人图像"
+            />
+          </router-link>
+        </div>
+      </el-header>
+      <el-container>
+        <el-aside width="200px" style="background-color: #f5f5f5">
+          <el-menu :default-active="activeMenu" class="el-menu-vertical-demo">
+            <el-menu-item index="1">
+              <router-link
+                to="/students"
+                style="font-size: large; font-weight: bold"
+                >主页</router-link
+              >
+            </el-menu-item>
+            <el-submenu index="2">
+              <template #title>申报管理</template>
+              <el-menu-item index="2-1">
+                <router-link to="/declare">申报项目</router-link>
+              </el-menu-item>
+            </el-submenu>
+            <el-menu-item index="3">
+              <router-link to="/projectcheck">项目查看</router-link>
+            </el-menu-item>
+            <el-menu-item index="4">
+              <router-link to="/personal">个人中心</router-link>
+            </el-menu-item>
+          </el-menu>
+        </el-aside>
+        <el-main style="overflow-y: auto; padding: 20px;">
+          <h2>申报通知</h2>
+          <el-card
+            v-for="(notification, index) in notifications"
+            :key="index"
+            style="margin-bottom: 20px;"
+          >
+            <h3>{{ notification.projectName }}</h3>
+            <p>{{ notification.projectNotice }}</p>
+            <el-button 
+              type="primary" 
+              @click="startDeclaration(notification.pid)" 
+              style="margin-left: 1050px;"
+            >
+              开始申报
+            </el-button>
+            <div style="text-align: right; color: #888;">
+              {{ formatDate(notification.endTime) }}
+            </div>
+          </el-card>
+        </el-main>
+      </el-container>
+    </el-container>
+    <div
+      style="
+        background-color: #4caf50;
+        color: white;
+        text-align: center;
+        padding: 10px;
+      "
+    >
+      用户单位：zyp 版权所有：zyp 访问量：0000
+    </div>
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      activeMenu: "",
+      notifications: [],
+      lastNotificationCount: 0,
+    };
+  },
+  computed: {
+    showNotificationDot() {
+      return this.notifications.length > this.lastNotificationCount;
+    },
+  },
+  methods: {
+    showNotifications() {
+      this.lastNotificationCount = this.notifications.length;
+      this.$router.push("/studentsnotice");
+    },
+    async fetchNotifications() {
+      try {
+        const response = await axios.get('/api/project/length');
+        this.notifications = response.data;
+        console.log("获取通知成功:", this.notifications);
+        if (this.notifications.length > this.lastNotificationCount) {
+          this.lastNotificationCount = this.notifications.length;
+        }
+      } catch (error) {
+        console.error("获取通知失败:", error);
+      }
+    },
+    formatDate(dateString) {
+      const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+      return new Date(dateString).toLocaleDateString('zh-CN', options);
+    },
+    startDeclaration(notificationId) {
+      this.$router.push({ path: '/shenbao', query: { id: notificationId } });
+    },
+  },
+  mounted() {
+    this.fetchNotifications();
+  },
+};
+</script>
+
+<style scoped>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  color: #2c3e50;
+  height: 92vh;
+}
+.notification-dot {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+}
+.el-aside a {
+  text-decoration: none;
+  color: #2c3e50;
+}
+.el-container {
+  display: flex;
+  height: 100%;
+}
+.el-header {
+  background-color: #4caf50;
+  color: white;
+}
+.el-card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 20px;
+}
+</style>
