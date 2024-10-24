@@ -55,6 +55,8 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
         Declaration declaration = declarationMapper.selectOne(reviewVo);
         //2.将评审意见给申请书表
         declaration.setTeachersAdvice(teachersAdvice);
+        declaration.setNodeName("评审老师审核");
+        declaration.setProcessStatus("审核中");
         declaration.setModificationStatus(0);
         declaration.setCheckStatus(1);
         declaration.setPingShen(0);
