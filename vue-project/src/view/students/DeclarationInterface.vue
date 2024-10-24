@@ -62,7 +62,7 @@
           </el-menu>
         </el-aside>
         <el-main>
-          <h1 style="font-size: 30px">申报管理</h1>
+          <h1 style="font-size: 30px;">申报管理</h1>
           <el-row>
             <el-col :span="4">
               <el-input placeholder="项目编号" v-model="projectCode"></el-input>
@@ -83,7 +83,7 @@
             <el-table-column
               prop="projectId"
               label="项目编号"
-              width="80"
+              width="150"
             ></el-table-column>
             <el-table-column
               prop="projectName"
@@ -100,37 +100,27 @@
               label="申报书名称"
               width="150"
             ></el-table-column>
+            <!-- <el-table-column
+              prop="projectLevel"
+              label="项目级别"
+              width="90"
+            ></el-table-column> -->
             <el-table-column
               prop="username"
               label="第一主持人"
-              width="100"
+              width="90"
             ></el-table-column>
             <el-table-column
               prop="adviser"
               label="第一指导教师"
-              width="120"
+              width="90"
             ></el-table-column>
-            <el-table-column prop="processStatus" label="流程状态" width="100">
-              <template slot-scope="scope">
-                {{ scope.row.processStatus || "暂无" }}
-              </template>
-            </el-table-column>
-            <el-table-column prop="nodeName" label="节点名称" width="90">
-              <template slot-scope="scope">
-                {{ scope.row.nodeName || "暂无" }}
-              </template>
-            </el-table-column>
-            <el-table-column prop="result" label="最终审核结果" width="120">
-              <template slot-scope="scope">
-                {{ scope.row.result || "暂无" }}
-              </template>
-            </el-table-column>
             <el-table-column
               prop="projectYear"
               label="所属批次"
               width="90"
             ></el-table-column>
-            <el-table-column label="操作" width="180">
+            <el-table-column label="操作" width="400">
               <template v-slot="scope">
                 <el-button @click="view(scope.row)"> 详情 </el-button>
                 <el-button
@@ -234,7 +224,7 @@ export default {
     },
     view(row) {
       this.$router.push({
-        path: "/shenbao",
+        path: "/studentprogress",
         query: { pId: row.bid },
       });
     },

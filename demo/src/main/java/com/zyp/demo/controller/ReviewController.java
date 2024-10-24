@@ -33,7 +33,7 @@ public class ReviewController {
     public ReviewVo getReview(@PathVariable Long id) {
         return reviewService.get(id);
     }
-    @ApiOperation("指导老师评审提交接口")
+    @ApiOperation("提交接口")
     @PostMapping("/tijiao/{id}")
     public void add(@PathVariable Long id,
             @RequestBody ReviewDto reviewDto) {
