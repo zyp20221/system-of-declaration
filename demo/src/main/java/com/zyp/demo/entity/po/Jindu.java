@@ -35,10 +35,7 @@ public class Jindu implements Serializable {
     private Integer teacherJindu;
 
     private Integer zhuanjiaJindu;
-
-    private Integer colleageJindu;
-
-    private Integer schoolJindu;
+    
 
     private Integer fabuJindu;
 

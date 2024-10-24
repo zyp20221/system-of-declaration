@@ -99,15 +99,15 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
         LambdaQueryWrapper<Users> usersLambdaQueryWrapper = new LambdaQueryWrapper<Users>().eq(Users::getUid, id);
         Users users = usersMapper.selectOne(usersLambdaQueryWrapper);
         String gxh = users.getGxh();
-        //3.在评审老师表中获取评审老师对应的项目id
+        //3.在评审老师表中获取评审老师对应的申报书id
         LambdaQueryWrapper<Pingshen> eq = new LambdaQueryWrapper<Pingshen>()
                 .eq(Pingshen::getGongHao, gxh);
         List<Pingshen> pingshens = pingshenMapper.selectList(eq);
         List<DeclareVo> list = new ArrayList<>();
         for (Pingshen pingshen : pingshens) {
-            //4.获取了项目id
+            //4.获取了申报书id
             Long projectId = pingshen.getDeclarationId();
-            LambdaQueryWrapper<Declaration> declaration = new LambdaQueryWrapper<Declaration>().eq(Declaration::getProjectId, projectId);
+            LambdaQueryWrapper<Declaration> declaration = new LambdaQueryWrapper<Declaration>().eq(Declaration::getBid, projectId);
             List<Declaration> declarations = declarationMapper.selectList(declaration);
             for (Declaration declaration1 : declarations) {
                 Long bid = declaration1.getBid();
@@ -115,21 +115,17 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
                 Integer teacherJindu = jindu.getTeacherJindu();
                 //5.查看指导老师是否已经指导过
                 if (teacherJindu == 1) {
-                    //6.检查评审老师是否评审过
-
-                        //7.根据adviserId查得姓名
-                        Long adviserId = declaration1.getAdviserId();
-                        Users users2 = usersMapper.selectById(adviserId);
-                        String adviser = users2.getUsername();
-                        //8.根据declarantId查姓名
-                        Long declarantId = declaration1.getDeclarantId();
-                        String username = usersMapper.selectById(declarantId).getUsername();
-                        DeclareVo declareVo = BeanUtil.copyProperties(declaration1, DeclareVo.class);
-                        declareVo.setProjectLevel(1);
-                        declareVo.setUsername(username);
-                        declareVo.setAdviser(adviser);
-                        list.add(declareVo);
-
+                    Long adviserId = declaration1.getAdviserId();
+                    Users users2 = usersMapper.selectById(adviserId);
+                    String adviser = users2.getUsername();
+                    //8.根据declarantId查姓名
+                    Long declarantId = declaration1.getDeclarantId();
+                    String username = usersMapper.selectById(declarantId).getUsername();
+                    DeclareVo declareVo = BeanUtil.copyProperties(declaration1, DeclareVo.class);
+                    declareVo.setProjectLevel(1);
+                    declareVo.setUsername(username);
+                    declareVo.setAdviser(adviser);
+                    list.add(declareVo);
 
                 }
             }
