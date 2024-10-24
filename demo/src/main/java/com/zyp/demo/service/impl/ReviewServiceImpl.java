@@ -49,7 +49,6 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
     @Override
     public void add(Long id, ReviewDto reviewDto) {
         String teachersAdvice = reviewDto.getTeachersAdvice();
-        String pingshenAdvice = reviewDto.getPingshenAdvice();
         //1.根据id找到申请书表
         LambdaQueryWrapper<Declaration> reviewVo = new LambdaQueryWrapper<Declaration>().eq(Declaration::getBid, id);
         Declaration declaration = declarationMapper.selectOne(reviewVo);
@@ -61,13 +60,22 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
         declaration.setPingShen(0);
         declaration.setUpdateTime(LocalDateTime.now());
         declarationMapper.updateById(declaration);
-        //3.根据id找到用户表
-        LambdaQueryWrapper<Users> user = new LambdaQueryWrapper<Users>().eq(Users::getUid, declaration.getDeclarantId());
-        Users users = usersMapper.selectOne(user);
-        users.setUpdateTime(LocalDateTime.now());
-        usersMapper.updateById(users);
     }
-
+    @Override
+    public void add2(Long id, ReviewDto reviewDto) {
+        String pingshenAdvice = reviewDto.getPingshenAdvice();
+        //1.根据id找到申请书表
+        LambdaQueryWrapper<Declaration> reviewVo = new LambdaQueryWrapper<Declaration>().eq(Declaration::getBid, id);
+        Declaration declaration = declarationMapper.selectOne(reviewVo);
+        //2.将评审意见给申请书表
+        declaration.setTeachersAdvice(pingshenAdvice);
+        declaration.setNodeName("评审老师审核");
+        declaration.setModificationStatus(0);
+        declaration.setCheckStatus(1);
+        declaration.setPingShen(0);
+        declaration.setUpdateTime(LocalDateTime.now());
+        declarationMapper.updateById(declaration);
+    }
     @Override
     public void dahui(Long id) {
         //1.根据id找到申请书

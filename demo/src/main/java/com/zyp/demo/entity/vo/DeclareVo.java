@@ -16,9 +16,7 @@ public class DeclareVo {
     private Integer modificationStatus;
     private Integer checkStatus;
     private String processStatus;
-
     private String nodeName;
-
     private String result;
     private Integer pingShen;
 }

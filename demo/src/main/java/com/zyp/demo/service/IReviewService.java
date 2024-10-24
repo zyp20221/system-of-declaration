@@ -28,4 +28,6 @@ public interface IReviewService extends IService<Review> {
     List<DeclareVo> getList(String authorization);
 
     List<DeclareVo> getList2(String authorization);
+
+    void add2(Long id, ReviewDto reviewDto);
 }
