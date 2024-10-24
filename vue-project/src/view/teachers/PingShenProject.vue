@@ -179,7 +179,7 @@
       },
       async submitForm() {
         try {
-          await axios.post(`api/review/tijiao/${this.bid}`, this.form2);
+          await axios.post(`api/review/tijiao2/${this.bid}`, this.form2);
           await axios.post(`api/jindu/gaibian2/${this.bid}`, this.forms3);
           this.$message.success("提交成功");
           // 可以在此处添加成功提交后的逻辑，例如显示通知或清空表单

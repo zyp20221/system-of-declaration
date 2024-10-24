@@ -5,12 +5,18 @@ import com.zyp.demo.entity.dto.ReviewDto;
 import com.zyp.demo.entity.po.Review;
 import com.zyp.demo.entity.vo.DeclareVo;
 import com.zyp.demo.entity.vo.ReviewVo;
+import com.zyp.demo.mapper.DeclarationMapper;
+import com.zyp.demo.mapper.PingshenMapper;
+import com.zyp.demo.mapper.ReviewMapper;
 import com.zyp.demo.service.IReviewService;
+import com.zyp.demo.timeThred.DataThread;
+import com.zyp.demo.timeThred.PingShenThread;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
@@ -27,7 +33,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewController {
     private final IReviewService reviewService;
-
+    private final DeclarationMapper declarationMapper;
+    private final PingshenMapper pingshenMapper;
+    private final ReviewMapper reviewMapper;
+    @PostConstruct
+    public void init() {
+        PingShenThread pingShenThread = new PingShenThread(declarationMapper,pingshenMapper,reviewMapper);
+        pingShenThread.start();
+    }
     @ApiOperation("得到申报内容接口")
     @GetMapping("/{id}")
     public ReviewVo getReview(@PathVariable Long id) {
