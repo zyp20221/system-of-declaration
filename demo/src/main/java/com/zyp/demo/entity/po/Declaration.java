@@ -64,6 +64,9 @@ public class Declaration implements Serializable {
 
     private String filePath;
 
-    private String pingshenAdvice;
+    private String processStatus;
 
+    private String nodeName;
+
+    private String result;
 }

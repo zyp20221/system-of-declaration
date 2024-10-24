@@ -55,7 +55,6 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
         Declaration declaration = declarationMapper.selectOne(reviewVo);
         //2.将评审意见给申请书表
         declaration.setTeachersAdvice(teachersAdvice);
-        declaration.setPingshenAdvice(pingshenAdvice);
         declaration.setModificationStatus(0);
         declaration.setCheckStatus(1);
         declaration.setPingShen(0);
@@ -116,7 +115,7 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
                 //5.查看指导老师是否已经指导过
                 if (teacherJindu == 1) {
                     //6.检查评审老师是否评审过
-                    if (declaration1.getPingshenAdvice()==null){
+
                         //7.根据adviserId查得姓名
                         Long adviserId = declaration1.getAdviserId();
                         Users users2 = usersMapper.selectById(adviserId);
@@ -129,7 +128,7 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
                         declareVo.setUsername(username);
                         declareVo.setAdviser(adviser);
                         list.add(declareVo);
-                    }
+
 
                 }
             }
