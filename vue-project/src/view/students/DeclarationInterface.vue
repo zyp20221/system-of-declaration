@@ -224,7 +224,7 @@ export default {
     },
     view(row) {
       this.$router.push({
-        path: "/studentprogress",
+        path: "/shenbao",
         query: { pId: row.bid },
       });
     },

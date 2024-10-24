@@ -70,9 +70,10 @@ public class DeclarationServiceImpl extends ServiceImpl<DeclarationMapper, Decla
         if (declaration2 == null) {
             declaration.setCreateTime(LocalDateTime.now());
             declaration.setUpdateTime(LocalDateTime.now());
+            declaration.setNodeName("等待用户提交");
             save(declaration);
         }else {
-            declaration2.setUpdateTime(LocalDateTime.now());
+            declaration.setUpdateTime(LocalDateTime.now());
             declaration.setBid(declaration2.getBid());
             updateById(declaration);
         }
@@ -96,6 +97,8 @@ public class DeclarationServiceImpl extends ServiceImpl<DeclarationMapper, Decla
         if (declaration == null) {
             declaration1.setDeclarantEmail(users.getEmail());
             declaration1.setCheckStatus(1);
+            declaration1.setNodeName("指导老师审核");
+            declaration1.setProcessStatus("审核中");
             declaration1.setModificationStatus(0);
             declaration1.setCreateTime(LocalDateTime.now());
             declaration1.setUpdateTime(LocalDateTime.now());
