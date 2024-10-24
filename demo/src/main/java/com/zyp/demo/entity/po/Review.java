@@ -28,11 +28,9 @@ public class Review implements Serializable {
 
     private Long declarationId;
 
-    private Long psId;
+    private String gxh;
 
-    private Integer reviewStatus;
-
-    private Integer reviewLevel;
+    private String pingshenService;
 
     private LocalDateTime createTime;
 
