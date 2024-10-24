@@ -36,8 +36,6 @@ public class Users implements Serializable {
 
     private String zhicheng;
 
-    private Integer psLevel;
-
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
