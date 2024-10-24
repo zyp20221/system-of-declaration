@@ -77,7 +77,7 @@
             <el-table-column label="操作" width="180">
               <template #default="scope">
                 <el-button
-                  @click="deleteReviewer(scope.row.gongHao)"
+                  @click="deleteReviewer(scope.row.declarationId,scope.row.gongHao)"
                   type="text"
                   size="large"
                   style="color: red"
@@ -175,9 +175,9 @@ export default {
       this.editReviewer = { ...reviewer };
       this.editDialogVisible = true;
     },
-    async deleteReviewer(gongHao) {
+    async deleteReviewer(declarationId,gongHao) {
       try {
-        await axios.delete(`/api/pingshen/${this.pid}/${gongHao}`);
+        await axios.delete(`/api/pingshen/${declarationId}/${gongHao}`);
         this.reviewers = this.reviewers.filter(
           (reviewer) => reviewer.gongHao !== gongHao
         );
